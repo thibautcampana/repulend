@@ -1,34 +1,33 @@
 'use client';
 
 export default function FairScoreWidget() {
-  // Mock FairScore for demo with more realistic simulation
-  const fairScore = Math.floor(Math.random() * 400) + 550; // Random score between 550-950
-  const maxScore = 1000;
-  const percentage = (fairScore / maxScore) * 100;
+  // Fixed score for demo purposes
+  const fairScore = 76; // 0-100 scale
+  const maxScore = 100;
+  const percentage = fairScore;
   
-  // Determine score color based on value
+  // Determine score color and tier based on value
   let scoreColor = 'bg-red-500';
-  let scoreLabel = 'Faible';
+  let scoreLabel = 'Bronze';
   let textColor = 'text-red-500';
+  let bgColor = 'bg-red-500/10';
   
-  if (fairScore >= 800) {
+  if (fairScore >= 70) {
     scoreColor = 'bg-green-500';
-    scoreLabel = 'Excellent';
+    scoreLabel = 'Or';
     textColor = 'text-green-500';
-  } else if (fairScore >= 700) {
-    scoreColor = 'bg-teal-500';
-    scoreLabel = 'Bon';
-    textColor = 'text-teal-500';
-  } else if (fairScore >= 600) {
-    scoreColor = 'bg-yellow-500';
-    scoreLabel = 'Moyen';
-    textColor = 'text-yellow-500';
+    bgColor = 'bg-green-500/10';
+  } else if (fairScore >= 40) {
+    scoreColor = 'bg-orange-500';
+    scoreLabel = 'Argent';
+    textColor = 'text-orange-500';
+    bgColor = 'bg-orange-500/10';
   }
 
   // Calculate loan terms based on score
-  const interestRate = (1000 - fairScore) * 0.005 + 5; // 5% to 15%
-  const loanLimit = Math.min(5000, fairScore * 5); // Up to 5000 USDC
-  const approvalTime = fairScore > 700 ? '< 1 min' : '< 5 min';
+  const interestRate = (100 - fairScore) * 0.15 + 5; // 5% to 20%
+  const loanLimit = Math.min(10000, fairScore * 150); // Up to 10,000 USDC
+  const approvalTime = fairScore > 70 ? '< 1 min' : fairScore > 40 ? '< 3 min' : '< 5 min';
 
   return (
     <div className="bg-gray-800 rounded-2xl shadow-xl p-6 max-w-md mx-auto border border-gray-700">
@@ -47,7 +46,7 @@ export default function FairScoreWidget() {
           ></div>
         </div>
         <div className="text-center">
-          <span className={`inline-block px-3 py-1 text-sm font-semibold rounded-full ${textColor} bg-opacity-20 ${scoreColor.replace('bg-', 'bg-')} bg-opacity-20`}>
+          <span className={`inline-block px-3 py-1 text-sm font-semibold rounded-full ${textColor} ${bgColor}`}>
             {scoreLabel}
           </span>
         </div>
